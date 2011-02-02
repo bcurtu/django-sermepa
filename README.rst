@@ -9,7 +9,7 @@ Para utilizarlo sigue los siguientes pasos
 1. Copia la carpeta sermeta a tu proyecto
 2. Añadelo a INSTALLED_APPS
 3. Ojo, hay un nuevo modelo: syncdb o migrations
-4. Añade los siguientes settings
+4. Añade los siguientes settings::
 	SERMEPA_URL_PRO = 'https://sis.sermepa.es/sis/realizarPago'
 	SERMEPA_URL_TEST = 'https://sis-t.sermepa.es:25443/sis/realizarPago'
 	SERMEPA_MERCHANT_CODE = '000000'
@@ -17,7 +17,7 @@ Para utilizarlo sigue los siguientes pasos
 	SERMEPA_BUTTON_IMG = '/site_media/_img/targets.jpg'
 
 	Deberás modificar SERMEPA_MERCHANT_CODE, SERMEPA_SECRET_KEY, SERMEPA_BUTTON_IMG
-5. Añade la ruta de la respuesta de Sermepa a tus urls:
+5. Añade la ruta de la respuesta de Sermepa a tus urls::
 	 (r'^sermepa/', include('sermepa.urls')),
 6. Programa las señales de OK, KO y si quieres de error::
  
@@ -35,8 +35,8 @@ Para utilizarlo sigue los siguientes pasos
 	payment_was_error.connect(payment_ko)
 	signature_error.connect(sermepa_ipn_error)
  
- 7. Utiliza el form de SermepaPaymentForm para inicializar el botón de pago, al estilo Paypal. 
+7. Utiliza el form de SermepaPaymentForm para inicializar el botón de pago, al estilo Paypal. 
  Mira el código del ejemplo (sermepa_test/views.py) para más info
  
- 8. Relájate, sírvete un mojito y espera a hacerte rico.
+8. Relájate, sírvete un mojito y espera a hacerte rico.
  
