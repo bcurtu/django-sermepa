@@ -13,6 +13,7 @@ class SermepaResponse(models.Model):
     Ds_SecurePayment = models.IntegerField()
     Ds_MerchantData = models.CharField(max_length=1024)
     Ds_Card_Country = models.IntegerField()
+    Ds_Card_Type = models.CharField(max_length=1, null=True, blank=True)
     Ds_Terminal = models.IntegerField()
     Ds_MerchantCode = models.CharField(max_length=9)
     Ds_ConsumerLanguage = models.IntegerField()
@@ -21,6 +22,7 @@ class SermepaResponse(models.Model):
     Ds_Currency = models.IntegerField()
     Ds_Amount = models.IntegerField()
     Ds_Signature = models.CharField(max_length=256)
+    Ds_AuthorisationCode = models.CharField(max_length=256)
     Ds_TransactionType = models.IntegerField()
 
     def check_signature(self):
@@ -32,4 +34,4 @@ class SermepaResponse(models.Model):
                                 settings.SERMEPA_SECRET_KEY,)
         sha1 = hashlib.sha1(key)
         return sha1.hexdigest().upper() == self.Ds_Signature
-        
+    check_signature.boolean = True        
