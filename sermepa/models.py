@@ -11,7 +11,7 @@ class SermepaResponse(models.Model):
     Ds_Date = models.DateField()
     Ds_Hour = models.TimeField()
     Ds_SecurePayment = models.IntegerField()
-    Ds_MerchantData = models.CharField(max_length=1024)
+    Ds_MerchantData = models.CharField(max_length=1024, null=True, blank=True)
     Ds_Card_Country = models.IntegerField()
     Ds_Card_Type = models.CharField(max_length=1, null=True, blank=True)
     Ds_Terminal = models.IntegerField()
