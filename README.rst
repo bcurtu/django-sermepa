@@ -2,13 +2,13 @@
 django-sermepa
 =============
 
-Django sermepa es una aplicación muy al estilo de django-paypal para usar el TPV Virtual de SERMEPA (Servired)
+Django sermepa es una aplicación muy al estilo de django-paypal para usar el TPV Virtual de Redsys/Sermepa, el TPV más usado en España
 
 Para utilizarlo sigue los siguientes pasos
 
 1. Copia la carpeta sermeta a tu proyecto
 2. Añadelo a INSTALLED_APPS
-3. Ojo, hay un nuevo modelo: syncdb o migrations
+3. Ojo, hay nuevos modelos: syncdb o migrations
 
 4. Añade los siguientes settings::
 
@@ -30,13 +30,19 @@ Para utilizarlo sigue los siguientes pasos
  
 	from sermepa.signals import payment_was_successful, payment_was_error, signature_error
 	def payment_ok(sender, **kwargs):
-			pass
+		'''sender es un objecto de clase SermepaResponse. Utiliza el campo Ds_MerchantData
+		para asociarlo a tu Pedido o Carrito''
+		pass
 
 	def payment_ko(sender, **kwargs):
-			pass
+		'''sender es un objecto de clase SermepaResponse. Utiliza el campo Ds_MerchantData
+		para asociarlo a tu Pedido o Carrito''
+		pass
 
 	def sermepa_ipn_error(sender, **kwargs):
-			pass
+		'''sender es un objecto de clase SermepaResponse. Utiliza el campo Ds_MerchantData
+		para asociarlo a tu Pedido o Carrito''
+		pass
 
 	payment_was_successful.connect(payment_ok)
 	payment_was_error.connect(payment_ko)
