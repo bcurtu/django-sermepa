@@ -9,6 +9,13 @@ from django.dispatch import Signal
 # Sent when a payment is successfully processed.
 payment_was_successful = Signal()
 
+# Sent when a refund is successful
+refund_was_successful = Signal()
+
+deferred_confirmation_was_successful = Signal()
+
+deferred_cancelation_was_successful = Signal()
+
 # Sent when a payment is error.
 payment_was_error = Signal()
 

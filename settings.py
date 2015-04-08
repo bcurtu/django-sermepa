@@ -97,8 +97,10 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
-SERMEPA_URL_PRO = 'https://sis.sermepa.es/sis/realizarPago'
-SERMEPA_URL_TEST = 'https://sis-t.sermepa.es:25443/sis/realizarPago'
-SERMEPA_MERCHANT_CODE = '000000'
+SERMEPA_URL_PRO = 'https://sis.redsys.es/sis/realizarPago'
+SERMEPA_URL_TEST = 'https://sis-t.redsys.es:25443/sis/realizarPago'
+SERMEPA_MERCHANT_CODE = '327234688' #test
+SERMEPA_TERMINAL = '002'
 SERMEPA_SECRET_KEY = 'qwertyasdf0123456789'
 SERMEPA_BUTTON_IMG = '/site_media/_img/targets.jpg'
+SERMEPA_CURRENCY = '978'

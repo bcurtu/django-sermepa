@@ -9,28 +9,26 @@ import random
 
 from sermepa.forms import SermepaPaymentForm
 from sermepa.signals import payment_was_successful, payment_was_error, signature_error
+from sermepa.models import SermepaIdTPV
 
 def form(request):
     site = Site.objects.get_current()
-    merchant_url =  "http://%s%s" % (site.domain, reverse('sermepa_ipn'))
-    amount = int(5.50 * 100)
-    order = '%d' % random.randint(1000,9999999)
-    currency = 978
-    trans_type = 0
-    terminal = 1
+    amount = int(5.50 * 100) #El precio es en céntimos de euro
+    order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
+    trans_type = '0' #Compra puntual
 
     sermepa_dict = {
-        "Ds_Merchant_Titular": 'Bosco Curtu',
-        "Ds_Merchant_MerchantData": 'custom info',
+        "Ds_Merchant_Titular": 'John Doe',
+        "Ds_Merchant_MerchantData": 'id pedido, para identificar el pedido en el mensaje de vuelta',
         "Ds_Merchant_MerchantName": 'ACME',
         "Ds_Merchant_ProductDescription": 'petardos',
         "Ds_Merchant_Amount": amount,
-        "Ds_Merchant_TransactionType": trans_type,
-        "Ds_Merchant_Terminal": terminal,
-        "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
         "Ds_Merchant_Order": order,
-        "Ds_Merchant_Currency": currency,
-        "Ds_Merchant_MerchantURL": merchant_url,
+        "Ds_Merchant_TransactionType": trans_type,
+        "Ds_Merchant_Terminal": settings.SERMEPA_TERMINAL,
+        "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
+        "Ds_Merchant_Currency": settings.SERMEPA_CURRENCY,
+        "Ds_Merchant_MerchantURL": "http://%s%s" % (site.domain, reverse('sermepa_ipn')),
         "Ds_Merchant_UrlOK": "http://%s%s" % (site.domain, reverse('end')),
         "Ds_Merchant_UrlKO": "http://%s%s" % (site.domain, reverse('end')),
     }        
