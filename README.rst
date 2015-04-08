@@ -32,7 +32,12 @@ Para utilizarlo sigue los siguientes pasos
 	def payment_ok(sender, **kwargs):
 		'''sender es un objecto de clase SermepaResponse. Utiliza el campo Ds_MerchantData
 		para asociarlo a tu Pedido o Carrito''
-		pass
+		pedido = Pedido.objects.get(id=sender.Ds_MerchantData)
+		pedido.estado = 'cobrado'
+		pedido.save()
+		send_email_success(pedido)
+		...
+		'''
 
 	def payment_ko(sender, **kwargs):
 		'''sender es un objecto de clase SermepaResponse. Utiliza el campo Ds_MerchantData
