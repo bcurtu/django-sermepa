@@ -14,11 +14,11 @@ Para utilizarlo sigue los siguientes pasos
 
 	SERMEPA_URL_PRO = 'https://sis.redsys.es/sis/realizarPago'
 	SERMEPA_URL_TEST = 'https://sis-t.redsys.es:25443/sis/realizarPago'
-	SERMEPA_MERCHANT_CODE = '327234688' #test
+	SERMEPA_MERCHANT_CODE = '327234688' #comercio de test
 	SERMEPA_TERMINAL = '002'
 	SERMEPA_SECRET_KEY = 'qwertyasdf0123456789'
 	SERMEPA_BUTTON_IMG = '/site_media/_img/targets.jpg'
-	SERMEPA_CURRENCY = '978'
+	SERMEPA_CURRENCY = '978' #Euros
 
 	Deberás modificar SERMEPA_MERCHANT_CODE, SERMEPA_SECRET_KEY, SERMEPA_BUTTON_IMG, SERMEPA_TERMINAL
 
@@ -40,7 +40,8 @@ Para utilizarlo sigue los siguientes pasos
 		pass
 
 	def sermepa_ipn_error(sender, **kwargs):
-		'''sender es un objecto de clase SermepaResponse. Utiliza el campo Ds_MerchantData
+		'''Esta señal salta cuando el POST data recibido está mal firmado. Solo pasa en caso de intentos de cracking.
+		sender es un objecto de clase SermepaResponse. Utiliza el campo Ds_MerchantData
 		para asociarlo a tu Pedido o Carrito''
 		pass
 
@@ -51,5 +52,7 @@ Para utilizarlo sigue los siguientes pasos
 7. Utiliza el form de SermepaPaymentForm para inicializar el botón de pago, al estilo Paypal. 
  Mira el código del ejemplo (sermepa_test/views.py) para más info
  
-8. Relájate, sírvete un mojito y espera a hacerte rico.
+8. Prueba el formulario de compra puntual en http://localhost:8000/
+
+9. Relájate, sírvete un mojito y espera a hacerte rico.
  
