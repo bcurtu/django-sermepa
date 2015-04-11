@@ -1,0 +1,15 @@
+MANIFEST.in
+README.rst
+setup.py
+django_sermepa.egg-info/PKG-INFO
+django_sermepa.egg-info/SOURCES.txt
+django_sermepa.egg-info/dependency_links.txt
+django_sermepa.egg-info/top_level.txt
+sermepa/__init__.py
+sermepa/admin.py
+sermepa/forms.py
+sermepa/models.py
+sermepa/signals.py
+sermepa/tests.py
+sermepa/urls.py
+sermepa/views.py

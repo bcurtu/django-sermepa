@@ -8,10 +8,19 @@ Permite generar cobros puntuales, recurrentes por fichero o por referencia, y de
 
 La app tiene una vista que escucha las notificaciones del TPV (se debe pedir su activación a tu banco) y lanza signals para que sean procesadas por tu aplicación de cobros, para cambiar de estado el pedido, enviar emails de notificación...
 
+
 Para utilizarlo sigue los siguientes pasos
 
-1. Copia la carpeta sermepa a tu proyecto
+1. Instala el proyecto usando pip o bájate las fuentes de github:
+ 
+ 1.1 Intalación con pip:
+
+     pip install django-sermepa
+
+ 1.2 Usando las fuentes, bájate el proyecto y copia la carpeta sermepa en tu entorno o proyecto.
+
 2. Añadelo a INSTALLED_APPS del settings.py
+
 3. Ojo, hay nuevos modelos: syncdb o migrations (no incluídas, depende de tu versiòn de django)
 
 4. Añade los siguientes settings::
