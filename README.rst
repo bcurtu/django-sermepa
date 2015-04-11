@@ -55,7 +55,23 @@ Para utilizarlo sigue los siguientes pasos
 	signature_error.connect(sermepa_ipn_error)
  
 7. Utiliza el form de SermepaPaymentForm para inicializar el botón de pago, al estilo Paypal. 
- Mira el código del ejemplo (sermepa_test/views.py) para más info
+ 
+ Mira el código del ejemplo (sermepa_test/views.py) para más info:
+
+ Existen diferentes modalidades de pago:
+ 1.- Las compras puntuales, el Ds_Merchant_TransactionType='0' y el Ds_Merchant_Order debe ser siempre único y de 10 cifras.
+ 2.- Ls suscripciones o pagos recurrentes. Existen 2 tipos, por fichero o por referencia.
+ 2.1- Por fichero, tienen un límite de 12 meses o 12 cobros. 
+ 2.1.1 El primer cobro el Ds_Merchant_TransactionType='L' y el Ds_Merchant_Order debe ser siempre único.
+ El tpv responde con el mismo valor pasado en la variable Ds_Order más 2 dígitos adicionales indicando el número de transacción (la primera es 00)
+ 2.1.2 Los cobros sucesivos se debe pasar el Ds_Merchant_TransactionType='M' y el primer Ds_Merchant_Order
+
+ 2.2- Por referencia, no tiene límite de tiempo ni de cobros. Este sistema soporta cobros de 0€ para activaciones y cambios de tarjetas.
+ 2.2.1 El primer cobro el Ds_Merchant_TransactionType='0' y el Ds_Merchant_Order='REQUIRED'
+ El tpv responde con un nuevo parámetro Ds_Merchant_Identifier, que hay que almacenar (idreferencia)
+ 2.2.2 Los cobros sucesivos son Ds_Merchant_TransactionType='0' y el Ds_Merchant_Order=idreferencia (el valor que nos han pasado en el primero cobro)
+
+
  
 8. Prueba el formulario de compra puntual en http://localhost:8000/
 

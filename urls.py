@@ -13,6 +13,11 @@ urlpatterns = patterns('',
         name    = 'form',
         ),
     url(
+        regex   = r'^(?P<trans_type>[\w])/$',
+        view    = 'sermepa_test.views.form',
+        name    = 'otros_forms',
+        ),
+    url(
         regex   = r'^end$',
         view    = 'sermepa_test.views.end',
         name    = 'end',
