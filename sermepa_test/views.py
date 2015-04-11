@@ -17,7 +17,7 @@ def form(request, trans_type='0'):
 
     sermepa_dict = {
         "Ds_Merchant_Titular": 'John Doe',
-        "Ds_Merchant_MerchantData": 'id pedido, para identificar el pedido en el mensaje de vuelta',
+        "Ds_Merchant_MerchantData": 12345, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
         "Ds_Merchant_MerchantName": 'ACME',
         "Ds_Merchant_ProductDescription": 'petardos',
         "Ds_Merchant_Amount": amount,
