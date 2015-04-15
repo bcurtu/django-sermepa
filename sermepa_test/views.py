@@ -59,6 +59,14 @@ def form(request, trans_type='0'):
             "Ds_Merchant_Order": order,
             "Ds_Merchant_TransactionType": trans_type,
         })
+    elif trans_type == '3': #Devolución
+        order = suscripcion.idreferencia #Primer idtpv, 10 dígitos
+        sermepa_dict.update({
+            "Ds_Merchant_Order": order,
+            "Ds_Merchant_TransactionType": trans_type,
+            "Ds_Merchant_AuthorisationCode": pedido.Ds_AuthorisationCode, #Este valor sale
+            # de la SermepaResponse obtenida del cobro que se quiere devolver.
+        })
 
     form = SermepaPaymentForm(initial=sermepa_dict)
     

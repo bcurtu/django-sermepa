@@ -59,6 +59,8 @@ Para utilizarlo sigue los siguientes pasos
         para asociarlo a tu Pedido o Carrito'''
         pedido = Pedido.objects.get(id=sender.Ds_MerchantData)
         pedido.estado = 'cobrado'
+        pedido.Ds_AuthorisationCode = sender.Ds_AuthorisationCode #Guardar este valor en caso
+        # de poder hacer devoluciones, es necesario.
         pedido.save()
         send_email_success(pedido)
 
@@ -123,6 +125,7 @@ Para utilizarlo sigue los siguientes pasos
  - Ds_Merchant_Identifier: la referencia para cobros recurrentes sucesivos si se utiliza el pago por referencia.
  - Ds_ExpiryDate: Fecha de expiración de la tarjeta
  - Ds_Card_Number: Número asteriscado de la tarjeta
+ - Ds_AuthorisationCode: Código de la operación autorizada, para poder hacer una devolución posterior.
 
 
 
