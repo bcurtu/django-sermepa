@@ -8,6 +8,7 @@ Permite generar cobros puntuales, recurrentes por fichero o por referencia, y de
 
 La app tiene una vista que escucha las notificaciones del TPV (se debe pedir su activación a tu banco) y lanza signals para que sean procesadas por tu aplicación de cobros, para cambiar de estado el pedido, enviar emails de notificación...
 
+Nuevo en la versión 1.1.2: ¡Compatible con python 2.7 y 3.x!
 
 Para utilizarlo sigue los siguientes pasos
 
