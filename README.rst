@@ -13,13 +13,18 @@ Para utilizarlo sigue los siguientes pasos
 
 1. Instala el proyecto usando pip o bájate las fuentes de github:
  
- 1.1 Intalación con pip:
+ 1.1 Intalación con pip::
 
-     pip install django-sermepa
+  pip install django-sermepa
 
  1.2 Usando las fuentes, bájate el proyecto y copia la carpeta sermepa en tu entorno o proyecto.
 
 2. Añadelo a INSTALLED_APPS del settings.py
+
+ .. code:: python
+
+    INSTALLED_APPS += ('sermepa',)
+ ..
 
 3. Ojo, hay nuevos modelos: syncdb o migrations (no incluídas, depende de tu versiòn de django)
 
@@ -35,9 +40,12 @@ Para utilizarlo sigue los siguientes pasos
 
  Deberás modificar SERMEPA_MERCHANT_CODE, SERMEPA_SECRET_KEY, SERMEPA_BUTTON_IMG, SERMEPA_TERMINAL
 
-5. Añade la ruta de la respuesta de Sermepa a tus urls::
+5. Añade la ruta de la respuesta de Sermepa a tus urls:
+
+ .. code:: python
 
      (r'^sermepa/', include('sermepa.urls')),
+ ..
      
 6. Programa los listeners de las signals de OK, KO y si quieres de error:
  
@@ -51,6 +59,8 @@ Para utilizarlo sigue los siguientes pasos
         para asociarlo a tu Pedido o Carrito'''
         pedido = Pedido.objects.get(id=sender.Ds_MerchantData)
         pedido.estado = 'cobrado'
+        pedido.Ds_AuthorisationCode = sender.Ds_AuthorisationCode #Guardar este valor en caso
+        # de poder hacer devoluciones, es necesario.
         pedido.save()
         send_email_success(pedido)
 
@@ -115,10 +125,11 @@ Para utilizarlo sigue los siguientes pasos
  - Ds_Merchant_Identifier: la referencia para cobros recurrentes sucesivos si se utiliza el pago por referencia.
  - Ds_ExpiryDate: Fecha de expiración de la tarjeta
  - Ds_Card_Number: Número asteriscado de la tarjeta
+ - Ds_AuthorisationCode: Código de la operación autorizada, para poder hacer una devolución posterior.
 
 
 
  
-9. Prueba el formulario de compra puntual en http://localhost:8000/
+9. Prueba el formulario de compra puntual en http://localhost:8000/ o http://localhost:8000/L/ ...
  
  
