@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django import forms
 from django.conf import settings
 from django.utils.safestring import mark_safe
@@ -42,7 +43,7 @@ class SermepaPaymentForm(forms.Form):
                                   self.initial.get('Ds_Merchant_Group') or '',
                                   self.initial.get('Ds_Merchant_DirectPayment') or '',
                                   SECRET_KEY,)
-        sha1 = hashlib.sha1(key)
+        sha1 = hashlib.sha1(key.encode('utf-8'))
         self.initial['Ds_Merchant_MerchantSignature'] = sha1.hexdigest().upper()
         
     def render(self):

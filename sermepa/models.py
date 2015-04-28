@@ -61,6 +61,6 @@ class SermepaResponse(models.Model):
                                 self.Ds_Currency, 
                                 self.Ds_Response, 
                                 SECRET_KEY,)
-        sha1 = hashlib.sha1(key)
+        sha1 = hashlib.sha1(key.encode('utf-8'))
         return sha1.hexdigest().upper() == self.Ds_Signature
     check_signature.boolean = True        

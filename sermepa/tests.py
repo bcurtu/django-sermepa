@@ -2,7 +2,6 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.test.client import Client
-from django.utils.encoding import smart_unicode
 from django.test.utils import override_settings
 from django.conf import settings
 
