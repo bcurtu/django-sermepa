@@ -119,6 +119,48 @@ Para utilizarlo sigue los siguientes pasos
 
  **Mira el código del ejemplo** (`sermepa_test/views.py <https://github.com/bcurtu/django-sermepa/blob/master/sermepa_test/views.py>`_) para más info:
 
+  .. code:: python
+
+    def form(request, trans_type='0'):
+        site = Site.objects.get_current()
+        amount = int(5.50 * 100) #El precio es en céntimos de euro
+
+        sermepa_dict = {
+            "Ds_Merchant_Titular": 'John Doe',
+            "Ds_Merchant_MerchantData": 12345, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
+            "Ds_Merchant_MerchantName": 'ACME',
+            "Ds_Merchant_ProductDescription": 'petardos',
+            "Ds_Merchant_Amount": amount,
+            "Ds_Merchant_Terminal": settings.SERMEPA_TERMINAL,
+            "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
+            "Ds_Merchant_Currency": settings.SERMEPA_CURRENCY,
+            "Ds_Merchant_MerchantURL": "http://%s%s" % (site.domain, reverse('sermepa_ipn')),
+            "Ds_Merchant_UrlOK": "http://%s%s" % (site.domain, reverse('end')),
+            "Ds_Merchant_UrlKO": "http://%s%s" % (site.domain, reverse('end')),
+            "Ds_Merchant_Order": SermepaIdTPV.objects.new_idtpv(),
+            "Ds_Merchant_TransactionType": '0',
+        }        
+        form = SermepaPaymentForm(initial=sermepa_dict)
+        
+        return HttpResponse(render_to_response('form.html', {'form': form, 'debug': settings.DEBUG}))
+
+..
+
+  y el form.html:
+
+    .. code:: html
+
+        <html>
+        <body>
+            {% if debug %}
+                {{ form.sandbox }}
+            {% else %}
+                {{ form.render }}
+            {% endif %}
+        </body>
+        </html>
+
+..
 
 8.  El TPV enviará una respuesta (SermepaResponse) con la información que se le ha enviado más nuevos datos relacionados con el pago. A destacar:
 
