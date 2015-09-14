@@ -33,11 +33,11 @@ class SermepaPaymentForm(forms.Form):
 
         SECRET_KEY = settings.SERMEPA_SECRET_KEY
 
-        key = '%s%s%s%s%s%s%s%s%s%s' % (self.initial['Ds_Merchant_Amount'], 
-                                  self.initial['Ds_Merchant_Order'], 
-                                  self.initial['Ds_Merchant_MerchantCode'], 
+        key = '%s%s%s%s%s%s%s%s%s%s' % (self.initial['Ds_Merchant_Amount'],
+                                  self.initial['Ds_Merchant_Order'],
+                                  self.initial['Ds_Merchant_MerchantCode'],
                                   self.initial['Ds_Merchant_Currency'],
-                                  self.initial['Ds_Merchant_TransactionType'], 
+                                  self.initial['Ds_Merchant_TransactionType'],
                                   self.initial['Ds_Merchant_MerchantURL'],
                                   self.initial.get('Ds_Merchant_Identifier') or '',
                                   self.initial.get('Ds_Merchant_Group') or '',
@@ -45,23 +45,24 @@ class SermepaPaymentForm(forms.Form):
                                   SECRET_KEY,)
         sha1 = hashlib.sha1(key.encode('utf-8'))
         self.initial['Ds_Merchant_MerchantSignature'] = sha1.hexdigest().upper()
-        
+
     def render(self):
         return mark_safe(u"""<form id="tpv_form" action="%s" method="post">
             %s
             <input type="image" src="%s" border="0" name="submit" alt="Comprar ahora" />
         </form>""" % (settings.SERMEPA_URL_PRO, self.as_p(), settings.SERMEPA_BUTTON_IMG))
-        
+
     def sandbox(self):
         return mark_safe(u"""<form id="tpv_form" action="%s" method="post">
             %s
             <input type="image" src="%s" border="0" name="submit" alt="Comprar ahora" />
         </form>""" % (settings.SERMEPA_URL_TEST, self.as_p(), settings.SERMEPA_BUTTON_IMG))
-        
+
 class SermepaResponseForm(forms.ModelForm):
     Ds_Date = forms.DateField(required=False, input_formats=('%d/%m/%Y',))
     Ds_Hour = forms.TimeField(required=False, input_formats=('%H:%M',))
 
     class Meta:
         model = SermepaResponse
-    
+        exclude = ()
+
