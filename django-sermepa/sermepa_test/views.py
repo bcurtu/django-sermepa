@@ -15,7 +15,7 @@ def form(request, trans_type='0'):
     site = Site.objects.get_current()
     amount = int(5.50 * 100) #El precio es en céntimos de euro
 
-    sermepa_dict = {
+    merchant_parameters = {
         "Ds_Merchant_Titular": 'John Doe',
         "Ds_Merchant_MerchantData": 12345, # id del Pedido o Carrito, para identificarlo en el mensaje de vuelta
         "Ds_Merchant_MerchantName": 'ACME',
@@ -27,48 +27,54 @@ def form(request, trans_type='0'):
         "Ds_Merchant_MerchantURL": "http://%s%s" % (site.domain, reverse('sermepa_ipn')),
         "Ds_Merchant_UrlOK": "http://%s%s" % (site.domain, reverse('end')),
         "Ds_Merchant_UrlKO": "http://%s%s" % (site.domain, reverse('end')),
-    }        
+        "DS_MERCHANT_ORDER": "123456",
+    }
 
+    """
     if trans_type == '0': #Compra puntual
         order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
-        sermepa_dict.update({
-            "Ds_Merchant_Order": order,
+        merchant_parameters.update({
+            "DS_MERCHANT_ORDER": order,
             "Ds_Merchant_TransactionType": trans_type,
         })
     elif trans_type == 'L': #Compra recurrente por fichero. Cobro inicial
         order = SermepaIdTPV.objects.new_idtpv() #Tiene que ser un número único cada vez
-        sermepa_dict.update({
-            "Ds_Merchant_Order": order,
+        merchant_parameters.update({
+            "DS_MERCHANT_ORDER": order,
             "Ds_Merchant_TransactionType": trans_type,
         })
     elif trans_type == 'M': #Compra recurrente por fichero. Cobros sucesivos
-        order = suscripcion.idtpv #Primer idtpv, 10 dígitos
-        sermepa_dict.update({
-            "Ds_Merchant_Order": order,
+        # order = suscripcion.idtpv #Primer idtpv, 10 dígitos
+        order = ''
+        merchant_parameters.update({
+            "DS_MERCHANT_ORDER": order,
             "Ds_Merchant_TransactionType": trans_type,
         })
     elif trans_type == '0': #Compra recurrente por Referencia. Cobro inicial
         order = 'REQUIRED'
-        sermepa_dict.update({
-            "Ds_Merchant_Order": order,
+        merchant_parameters.update({
+            "DS_MERCHANT_ORDER": order,
             "Ds_Merchant_TransactionType": trans_type,
         })
     elif trans_type == '0': #Compra recurrente por Referencia. Cobros sucesivos
-        order = suscripcion.idreferencia #Primer idtpv, 10 dígitos
-        sermepa_dict.update({
-            "Ds_Merchant_Order": order,
+        # order = suscripcion.idreferencia #Primer idtpv, 10 dígitos
+        order = ''
+        merchant_parameters.update({
+            "DS_MERCHANT_ORDER": order,
             "Ds_Merchant_TransactionType": trans_type,
         })
     elif trans_type == '3': #Devolución
-        order = suscripcion.idreferencia #Primer idtpv, 10 dígitos
-        sermepa_dict.update({
-            "Ds_Merchant_Order": order,
+        # order = suscripcion.idreferencia #Primer idtpv, 10 dígitos
+        order = ''
+        merchant_parameters.update({
+            "DS_MERCHANT_ORDER": order,
             "Ds_Merchant_TransactionType": trans_type,
-            "Ds_Merchant_AuthorisationCode": pedido.Ds_AuthorisationCode, #Este valor sale
+            #"Ds_Merchant_AuthorisationCode": pedido.Ds_AuthorisationCode, #Este valor sale
+            "Ds_Merchant_AuthorisationCode": '',
             # de la SermepaResponse obtenida del cobro que se quiere devolver.
         })
-
-    form = SermepaPaymentForm(initial=sermepa_dict)
+    """
+    form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
     
     return HttpResponse(render_to_response('form.html', {'form': form, 'debug': settings.DEBUG}))
     

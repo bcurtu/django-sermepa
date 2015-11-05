@@ -9,16 +9,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'sermepa.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
+DATABASES = {'default': {'ENGINE': 'django.db.backends.mysql', 'NAME': 'sermepa', 'USER': 'root', 
+                         'PASSWORD': '1234567890qwerty', 'HOST': '', 'PORT': '33306','DEFAULT_CHARSET' : 'utf-8', 'OPTIONS': { 'init_command': 'SET storage_engine=InnoDB;' }}}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -99,8 +91,8 @@ INSTALLED_APPS = (
 
 SERMEPA_URL_PRO = 'https://sis.redsys.es/sis/realizarPago'
 SERMEPA_URL_TEST = 'https://sis-t.redsys.es:25443/sis/realizarPago'
-SERMEPA_MERCHANT_CODE = '327234688' #test
-SERMEPA_TERMINAL = '002'
-SERMEPA_SECRET_KEY = 'qwertyasdf0123456789'
-SERMEPA_BUTTON_IMG = '/site_media/_img/targets.jpg'
+SERMEPA_MERCHANT_CODE = '' # Redsys Merchant code
+SERMEPA_TERMINAL = '1'
+SERMEPA_SECRET_KEY = '' # Redsys Secret Key
 SERMEPA_CURRENCY = '978'
+SERMEPA_SIGNATURE_VERSION = 'HMAC_SHA256_V1'

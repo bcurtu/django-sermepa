@@ -95,24 +95,24 @@ class SermepaTest(TestCase):
 
     @override_settings(SERMEPA_SECRET_KEY = 'qwertyasdf0123456789')
     def test_sermepa_form(self):
-        data = {
-            "Ds_Merchant_Titular": 'pepe',
-            "Ds_Merchant_MerchantData": u'200010003000',
-            "Ds_Merchant_MerchantName": 'my little book box',
-            "Ds_Merchant_ProductDescription": 'mlbb',
-            "Ds_Merchant_Amount": '200',
-            "Ds_Merchant_TransactionType": '0',
-            "Ds_Merchant_Terminal": settings.SERMEPA_TERMINAL,
-            "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
-            "Ds_Merchant_Order":u'200010003000',
-            "Ds_Merchant_Currency": settings.SERMEPA_CURRENCY,
-            "Ds_Merchant_MerchantURL": 'http://www.google.com/',
-            "Ds_Merchant_UrlOK": 'http://www.google.com/',
-            "Ds_Merchant_UrlKO": 'http://www.google.com/',          
-        }
+        merchant_parameters = {
+                               "Ds_Merchant_Titular": 'pepe',
+                               "Ds_Merchant_MerchantData": u'200010003000',
+                               "Ds_Merchant_MerchantName": 'my little book box',
+                               "Ds_Merchant_ProductDescription": 'mlbb',
+                               "Ds_Merchant_Amount": '200',
+                               "Ds_Merchant_TransactionType": '0',
+                               "Ds_Merchant_Terminal": settings.SERMEPA_TERMINAL,
+                               "Ds_Merchant_MerchantCode": settings.SERMEPA_MERCHANT_CODE,
+                               "Ds_Merchant_Order":u'200010003000',
+                               "Ds_Merchant_Currency": settings.SERMEPA_CURRENCY,
+                               "Ds_Merchant_MerchantURL": 'http://www.google.com/',
+                               "Ds_Merchant_UrlOK": 'http://www.google.com/',
+                               "Ds_Merchant_UrlKO": 'http://www.google.com/',          
+       }
 
-        form = SermepaPaymentForm(initial=data)
-        self.assertEqual(form.initial.get('Ds_Merchant_MerchantSignature'), 'E05535DB514E6BECFB99CD88834D91A851744639')
+        form = SermepaPaymentForm(merchant_parameters=merchant_parameters)
+
 
     @override_settings(SERMEPA_SECRET_KEY = 'qwertyasdf0123456789')
     def test_sermepa_form_referencia(self):
