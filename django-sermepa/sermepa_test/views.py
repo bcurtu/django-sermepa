@@ -27,7 +27,7 @@ def form(request, trans_type='0'):
         "Ds_Merchant_MerchantURL": "http://%s%s" % (site.domain, reverse('sermepa_ipn')),
         "Ds_Merchant_UrlOK": "http://%s%s" % (site.domain, reverse('end')),
         "Ds_Merchant_UrlKO": "http://%s%s" % (site.domain, reverse('end')),
-        "DS_MERCHANT_ORDER": "123456",
+        "DS_MERCHANT_ORDER": "60089f7a4def",
     }
 
     """

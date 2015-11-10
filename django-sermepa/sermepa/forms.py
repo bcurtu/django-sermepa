@@ -27,10 +27,10 @@ class SermepaPaymentForm(forms.Form):
                 cifrado 3DES entre la clave del comercio y el valor del número de
                 pedido de la operación (Ds_Merchant_Order).
             """
-            pycrypto = DES3.new(base64.standard_b64decode(SECRET_KEY), DES3.MODE_CBC, IV=b'\x00\x00\x00\x00\x00\x00\x00\x00')
+            pycrypto = DES3.new(base64.standard_b64decode(SECRET_KEY), DES3.MODE_CBC, IV=b'\0\0\0\0\0\0\0\0')
             order = merchant_parameters['DS_MERCHANT_ORDER']
-            test = order.ljust(8,b"\x00")
-            pycrypto_order = pycrypto.encrypt(test)
+            order_padded = order.ljust(16, b'\0')
+            pycrypto_order = pycrypto.encrypt(order_padded)
 
 
             """
