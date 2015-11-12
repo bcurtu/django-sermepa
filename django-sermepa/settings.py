@@ -91,8 +91,10 @@ INSTALLED_APPS = (
 
 SERMEPA_URL_PRO = 'https://sis.redsys.es/sis/realizarPago'
 SERMEPA_URL_TEST = 'https://sis-t.redsys.es:25443/sis/realizarPago'
-SERMEPA_MERCHANT_CODE = '' # Redsys Merchant code
 SERMEPA_TERMINAL = '1'
-SERMEPA_SECRET_KEY = '' # Redsys Secret Key
 SERMEPA_CURRENCY = '978'
-SERMEPA_SIGNATURE_VERSION = 'HMAC_SHA256_V1'
+
+SERMEPA_SIGNATURE_VERSION = 'HMAC_SHA256_V1' # This value is fixed
+SERMEPA_SITE_DOMAIN = ''    # Your site domain
+SERMEPA_SECRET_KEY = ''     # Your Redsys Secret Key
+SERMEPA_MERCHANT_CODE = ''  # Your Redsys Merchant code

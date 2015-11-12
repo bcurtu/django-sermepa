@@ -3,9 +3,8 @@ from __future__ import unicode_literals
 from django import forms
 from django.conf import settings
 from django.utils.safestring import mark_safe
-from Crypto.Cipher import DES3
-import hashlib, json, base64, hmac
-from .models import SermepaResponse
+from utils import redsys_generate_request
+
 
 class SermepaPaymentForm(forms.Form):
     Ds_SignatureVersion = forms.IntegerField(widget=forms.HiddenInput())
@@ -17,45 +16,11 @@ class SermepaPaymentForm(forms.Form):
         super(SermepaPaymentForm, self).__init__(*args, **kwargs)
 
         if merchant_parameters:
-            SECRET_KEY = settings.SERMEPA_SECRET_KEY
-            SIGNATURE_VERSION =settings.SERMEPA_SIGNATURE_VERSION
+            # Generate needed parameters using 256 signature Redsys method
+            Ds_MerchantParameters, Ds_Signature = redsys_generate_request(merchant_parameters)
 
-
-            """
-                Se genera una clave específica por operación. Para obtener la
-                clave derivada a utilizar en una operación se debe realizar un
-                cifrado 3DES entre la clave del comercio y el valor del número de
-                pedido de la operación (Ds_Merchant_Order).
-            """
-            pycrypto = DES3.new(base64.standard_b64decode(SECRET_KEY), DES3.MODE_CBC, IV=b'\0\0\0\0\0\0\0\0')
-            order = merchant_parameters['DS_MERCHANT_ORDER']
-            order_padded = order.ljust(16, b'\0')
-            pycrypto_order = pycrypto.encrypt(order_padded)
-
-
-            """
-                Datos iniciales. Creamos un json y los codificamos en base64 eliminando retornos de carro
-            """ 
-            parameters = (json.dumps(merchant_parameters)).encode()
-            Ds_MerchantParameters = ''.join(unicode(base64.encodestring(parameters), 'utf-8').splitlines())
-
-
-            """
-                Se calcula el HMAC SHA256 del valor del parámetro
-                Ds_MerchantParameters y la clave obtenida en el paso anterior.
-                El resultado obtenido se codifica en BASE 64, y el resultado de la
-                codificación será el valor del parámetro Ds_Signature, tal y
-                como se puede observar en el ejemplo de formulario mostrado al
-                inicio del apartado 3.
-            """
-            hmac_value = hmac.new(pycrypto_order, Ds_MerchantParameters, hashlib.sha256).digest()
-            Ds_Signature = base64.b64encode(hmac_value)
-
-    
-            """
-                Estos serían los tres parámetros a enviar a Redsys
-            """
-            self.initial['Ds_SignatureVersion'] = SIGNATURE_VERSION
+            # Parameters to send to RedSys
+            self.initial['Ds_SignatureVersion'] = settings.SERMEPA_SIGNATURE_VERSION
             self.initial['Ds_MerchantParameters'] = Ds_MerchantParameters
             self.initial['Ds_Signature'] = Ds_Signature
 
@@ -71,11 +36,12 @@ class SermepaPaymentForm(forms.Form):
             <input type="submit" name="submit" alt="Comprar ahora" value="Comprar ahora"/>
         </form>""" % (settings.SERMEPA_URL_TEST, self.as_p()))
 
-class SermepaResponseForm(forms.ModelForm):
+
+class SermepaResponseForm(forms.Form):
+    Ds_SignatureVersion = forms.CharField(max_length=256)
+    Ds_Signature = forms.CharField(max_length=256)
+    Ds_MerchantParameters = forms.CharField(max_length=2048)
+
     Ds_Date = forms.DateField(required=False, input_formats=('%d/%m/%Y',))
     Ds_Hour = forms.TimeField(required=False, input_formats=('%H:%M',))
-
-    class Meta:
-        model = SermepaResponse
-        exclude = ()
 
