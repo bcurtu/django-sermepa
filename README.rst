@@ -8,8 +8,9 @@ Permite generar cobros puntuales, recurrentes por fichero o por referencia, y de
 
 La app tiene una vista que escucha las notificaciones del TPV (se debe pedir su activación a tu banco) y lanza signals para que sean procesadas por tu aplicación de cobros, para cambiar de estado el pedido, enviar emails de notificación...
 
-Nuevo en la versión 1.1.2: **¡Compatible con python 2.7 y python 3.x!**
-Nuevo en la versión 1.1.3: Support django 1.4 + (tested in 1.4, 1.5, 1.6, 1.7)
+* Nuevo en la versión 1.1.2: **¡Compatible con python 2.7 y python 3.x!**
+* Nuevo en la versión 1.1.3: Support django 1.4 + (tested in 1.4, 1.5, 1.6, 1.7)
+* Nuevo en master: Compatibilidad con el nuevo protocolo HMAC-256 de Redsys, gracias al trabajo de `Álvaro Vélez <https://github.com/alvarovelezgalvez>`_ y `Jordi Colell <https://github.com/jordic>`_
 
 Para utilizarlo sigue los siguientes pasos
 
