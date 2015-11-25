@@ -19,7 +19,7 @@ def sermepa_ipn(request):
         sermepa_resp = SermepaResponse()
 
         if 'Ds_Date' in merchant_parameters:
-            sermepa_resp.Ds_Date = dateutil.parser.parse((merchant_parameters['Ds_Date']).replace('%2F','/')) 
+            sermepa_resp.Ds_Date = dateutil.parser.parse((merchant_parameters['Ds_Date']).replace('%2F','/'))
         if 'Ds_Hour' in merchant_parameters:
             sermepa_resp.Ds_Hour = dateutil.parser.parse((merchant_parameters['Ds_Hour']).replace('%3A',':'))
         if 'Ds_Amount' in merchant_parameters:
@@ -57,12 +57,12 @@ def sermepa_ipn(request):
         valid_signature = redsys_check_response(form.cleaned_data['Ds_Signature'], form.cleaned_data['Ds_MerchantParameters'], )
         if valid_signature:
             if int(sermepa_resp.Ds_Response) < 100:
-                payment_was_successful(sender=sermepa_resp) #signal
+                payment_was_successful.send(sender=sermepa_resp) #signal
             elif sermepa_resp.Ds_Response == '0900' and\
                  sermepa_resp.Ds_TransactionType==OPER_REFUND:
                     refund_was_successful.send(sender=sermepa_resp)  #signal
             else:
-                payment_was_error(sender=sermepa_resp) #signal
+                payment_was_error.send(sender=sermepa_resp) #signal
         else:
             signature_error.send(sender=sermepa_resp) #signal
     return HttpResponse()
