@@ -27,14 +27,16 @@ class SermepaPaymentForm(forms.Form):
     def render(self):
         return mark_safe(u"""<form id="tpv_form" action="%s" method="post">
             %s
-            <input type="submit" name="submit" alt="Comprar ahora" value="Comprar ahora"/>
-        </form>""" % (settings.SERMEPA_URL_PRO, self.as_p()))
+            <input type="submit" name="submit" alt="%s" value="%s"/>
+        </form>""" % (settings.SERMEPA_URL_PRO, self.as_p(), settings.SERMEPA_BUTTON_TEXT,
+                      settings.SERMEPA_BUTTON_TEXT))
 
     def sandbox(self):
         return mark_safe(u"""<form id="tpv_form" action="%s" method="post">
             %s
-            <input type="submit" name="submit" alt="Comprar ahora" value="Comprar ahora"/>
-        </form>""" % (settings.SERMEPA_URL_TEST, self.as_p()))
+            <input type="submit" name="submit" alt="%s" value="%s"/>
+        </form>""" % (settings.SERMEPA_URL_TEST, self.as_p(), settings.SERMEPA_BUTTON_TEXT,
+                      settings.SERMEPA_BUTTON_TEXT))
 
 
 class SermepaResponseForm(forms.Form):
@@ -44,4 +46,3 @@ class SermepaResponseForm(forms.Form):
 
     Ds_Date = forms.DateField(required=False, input_formats=('%d/%m/%Y',))
     Ds_Hour = forms.TimeField(required=False, input_formats=('%H:%M',))
-
