@@ -84,7 +84,7 @@ INSTALLED_APPS = (
     'sermepa',
     'sermepa_test',
     # Uncomment the next line to enable the admin:
-     'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -93,6 +93,7 @@ SERMEPA_URL_PRO = 'https://sis.redsys.es/sis/realizarPago'
 SERMEPA_URL_TEST = 'https://sis-t.redsys.es:25443/sis/realizarPago'
 SERMEPA_TERMINAL = '1'
 SERMEPA_CURRENCY = '978'
+SERMEPA_BUTTON_TEXT = 'Comprar ahora'
 
 SERMEPA_SIGNATURE_VERSION = 'HMAC_SHA256_V1' # This value is fixed
 SERMEPA_SITE_DOMAIN = ''    # Your site domain
