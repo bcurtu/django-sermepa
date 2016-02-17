@@ -19,7 +19,7 @@ def sermepa_ipn(request):
         sermepa_resp = SermepaResponse()
 
         if 'Ds_Date' in merchant_parameters:
-            sermepa_resp.Ds_Date = dateutil.parser.parse((merchant_parameters['Ds_Date']).replace('%2F','/'))
+            sermepa_resp.Ds_Date = dateutil.parser.parse((merchant_parameters['Ds_Date']).replace('%2F','/'), dayfirst=True)
         if 'Ds_Hour' in merchant_parameters:
             sermepa_resp.Ds_Hour = dateutil.parser.parse((merchant_parameters['Ds_Hour']).replace('%3A',':'))
         if 'Ds_Amount' in merchant_parameters:
